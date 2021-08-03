@@ -1,3 +1,3 @@
 import WaterSorting
 
-WaterSorting.playWithPyGame()
+WaterSorting.Generator(9, 4).start()

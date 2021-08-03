@@ -32,8 +32,21 @@ class Level:
         self.printf('你赢了')
     def end(self):
         pass
+    def listen(self, msg):
+        i = input(msg)
+        if i == 'restart':
+            self.restart()
+        elif i == 'save':
+            try:
+                self.save(input('输出路径 '))
+            except:
+                self.printf('保存失败')
+        try:
+            return int(i)
+        except ValueError:
+            self.printf('输入错误')
     def inputf(self):
-        return int(input('从序号 ')), int(input('到序号 '))
+        return self.listen('从序号 '), self.listen('到序号 ')
     def printf(self, msg):
         print(msg)
     def disp(self):
@@ -51,8 +64,6 @@ class Level:
             except Exception as err:
                 if not r:
                     raise err
-        except ValueError:
-            self.printf('输入错误')
         except IndexError:
             self.printf('试管序号超出范围')
         except Exception as err:
@@ -81,6 +92,26 @@ class Levels(Level):
     def save(self, uri):
         with open(uri, 'wb') as f:
             pickle.dump(self.levs, f)
+
+class Generator(Level):
+    def __init__(self, width, limit):
+        super().__init__([[] for _ in range(width)], limit)
+    def start(self):
+        while True:
+            self.disp()
+            self.add()
+    def add(self):
+        try:
+            a, b = self.inputf()
+            if len(self.l[a-1])+1 > self.limit:
+                raise Exception('试管溢出')
+            self.l[a-1].append(b)
+        except IndexError:
+            self.printf('试管序号超出范围')
+        except Exception as err:
+            self.printf(err.args[0])
+    def inputf(self):
+        return self.listen('试管序号 '), self.listen('液体颜色 ')
 
 def playWithConsole(limit=None):
     if limit:
