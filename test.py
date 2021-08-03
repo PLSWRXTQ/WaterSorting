@@ -1,0 +1,3 @@
+import WaterSorting
+
+WaterSorting.playWithPyGame()
