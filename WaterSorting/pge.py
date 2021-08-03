@@ -50,7 +50,7 @@ class Level(core.Level):
                 pygame.draw.rect(self.screen, pygame.Color(*core.COLORS[self.l[i][j]-1]), Rect(self.margin+(self.blockw+self.margin)*i, (self.height-self.margin-self.blockh)-self.blockh*j, self.blockw, self.blockh))
         pygame.display.update()
         pygame.event.pump()
-    
+
 class Levels(Level, core.Levels):
     def __init__(self, levs):
         super().__init__(levs=levs)
