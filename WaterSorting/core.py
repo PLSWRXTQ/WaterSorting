@@ -12,7 +12,7 @@ class Level:
     def start(self):
         while not self.isover():
             self.disp()
-            self.move(*self.inputf())
+            self.move(self.listen('从序号 '), self.listen('到序号 '))
         else:
             self.disp()
         self.over()
@@ -29,7 +29,7 @@ class Level:
                 m.append(e)
         return True
     def over(self):
-        self.printf('你赢了')
+        self.say('你赢了')
     def end(self):
         pass
     def listen(self, msg):
@@ -40,17 +40,15 @@ class Level:
             try:
                 self.save(input('输出路径 '))
             except:
-                self.printf('保存失败')
+                self.say('保存失败')
         try:
             return int(i)
         except ValueError:
-            self.printf('输入错误')
-    def inputf(self):
-        return self.listen('从序号 '), self.listen('到序号 ')
-    def printf(self, msg):
+            self.say('输入错误')
+    def say(self, msg):
         print(msg)
     def disp(self):
-        self.printf('\n'.join([f'试管 {i+1} {self.l[i]}' for i in range(len(self.l))]))
+        self.say('\n'.join([f'试管 {i+1} {self.l[i]}' for i in range(len(self.l))]))
     def move(self, a, b, r=False):
         try:
             try:
@@ -65,13 +63,13 @@ class Level:
                 if not r:
                     raise err
         except IndexError:
-            self.printf('试管序号超出范围')
+            self.say('试管序号超出范围')
         except Exception as err:
-            self.printf(err.args[0])
+            self.say(err.args[0])
     def restart(self):
         self.l = deepcopy(self.backup)
         self.disp()
-        self.printf('已重置')
+        self.say('已重置')
     def save(self, uri):
         with open(uri, 'wb') as f:
             pickle.dump((self.l, self.limit), f)
@@ -100,18 +98,24 @@ class Generator(Level):
         while True:
             self.disp()
             self.add()
+    def ctrl(self):
+        self.listen('')
     def add(self):
         try:
-            a, b = self.inputf()
+            a, b = self.listen('试管序号 '), self.listen('液体颜色 ')
             if len(self.l[a-1])+1 > self.limit:
                 raise Exception('试管溢出')
             self.l[a-1].append(b)
         except IndexError:
-            self.printf('试管序号超出范围')
+            self.say('试管序号超出范围')
         except Exception as err:
-            self.printf(err.args[0])
-    def inputf(self):
-        return self.listen('试管序号 '), self.listen('液体颜色 ')
+            self.say(err.args[0])
+    def delete(self):
+        try:
+            a = self.listen('试管序号 ')
+            self.l.pop()
+        except IndexError:
+            self.say('试管序号超出范围')
 
 def playWithConsole(limit=None):
     if limit:

@@ -19,17 +19,6 @@ class Level(core.Level):
         super().start()
     def end(self):
         pygame.quit()
-    def inputf(self):
-        return self.listen(), self.listen()
-    def printf(self, msg):
-        font = pygame.font.SysFont('SimHei', 50)
-        text = font.render(msg, 1, (127,127,127))
-        textpos = text.get_rect()
-        textpos.center = self.screen.get_rect().center
-        self.screen.blit(text, textpos)
-        pygame.display.update()
-        time.sleep(1)
-        self.disp()
     def listen(self):
         while True:
             for e in pygame.event.get():
@@ -43,6 +32,15 @@ class Level(core.Level):
                 elif e.type == pygame.KEYDOWN:
                     if e.key == pygame.K_r:
                         self.restart()
+    def say(self, msg):
+        font = pygame.font.SysFont('SimHei', 50)
+        text = font.render(msg, 1, (127,127,127))
+        textpos = text.get_rect()
+        textpos.center = self.screen.get_rect().center
+        self.screen.blit(text, textpos)
+        pygame.display.update()
+        time.sleep(1)
+        self.disp()
     def disp(self):
         self.screen.fill(pygame.Color(255,255,255))
         for i in range(len(self.l)):
