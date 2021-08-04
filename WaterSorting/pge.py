@@ -3,6 +3,7 @@ import pygame, time
 from pygame.locals import *
 from tkinter import Tk
 from tkinter import filedialog
+from os import _exit
 
 class Level(core.Level):
     def __init__(self, width=512, height=512, margin=6, fps=60, *level_args, **level_kwargs):
@@ -21,6 +22,7 @@ class Level(core.Level):
         super().start()
     def end(self):
         pygame.quit()
+        _exit(0)
     def listen(self, msg):
         while True:
             for e in pygame.event.get():
