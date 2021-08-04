@@ -94,8 +94,8 @@ class Levels(Level):
             self.end()
 
 class Generator(Level):
-    def __init__(self, length, limit):
-        super().__init__([[] for _ in range(length)], limit)
+    def __init__(self, number, limit):
+        super().__init__([[] for _ in range(number)], limit)
     def start(self):
         while True:
             self.disp()

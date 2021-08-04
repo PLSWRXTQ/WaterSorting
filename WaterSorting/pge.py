@@ -69,8 +69,8 @@ class Levels(Level, core.Levels):
         super().__init__(levs=levs)
 
 class Generator(Level, core.Generator):
-    def __init__(self, length, limit):
-        super().__init__(length=length, limit=limit)
+    def __init__(self, number, limit):
+        super().__init__(number=number, limit=limit)
         self.incc = False
     def listen(self, msg):
         coind = 0
