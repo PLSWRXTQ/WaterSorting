@@ -1,6 +1,8 @@
 from . import core, levels
 import pygame, time
 from pygame.locals import *
+from tkinter import Tk
+from tkinter import filedialog
 
 class Level(core.Level):
     def __init__(self, width=512, height=512, margin=6, fps=60, *level_args, **level_kwargs):
@@ -19,22 +21,35 @@ class Level(core.Level):
         super().start()
     def end(self):
         pygame.quit()
-    def listen(self):
+    def listen(self, msg):
         while True:
             for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    self.end()
-                elif e.type == pygame.MOUSEBUTTONDOWN:
-                    ypos = e.pos[0]
-                    for i in range(len(self.l)):
-                        if ypos in range(self.margin+(self.blockw+self.margin)*i, self.margin+(self.blockw+self.margin)*i+self.blockw+1):
-                            return i+1
-                elif e.type == pygame.KEYDOWN:
-                    if e.key == pygame.K_r:
-                        self.restart()
+                i = self.filter(e)
+                if i:
+                    return i
+    def filter(self, e):
+        if e.type == pygame.QUIT:
+            self.end()
+        elif e.type == pygame.MOUSEBUTTONDOWN:
+            ypos = e.pos[0]
+            for i in range(len(self.l)):
+                if ypos in range(self.margin+(self.blockw+self.margin)*i, self.margin+(self.blockw+self.margin)*i+self.blockw+1):
+                    return i+1
+        elif e.type == pygame.KEYDOWN:
+            if e.key == pygame.K_r:
+                self.restart()
+            else:
+                keys = pygame.key.get_pressed()
+                if (keys[pygame.K_LCTRL] or keys[pygame.K_RCTRL]) and keys[pygame.K_s]:
+                    Tk().withdraw()
+                    fp = filedialog.asksaveasfilename(initialfile=levels.getMD5((self.l, self.limit))+'.pkl', defaultextension='.pkl', filetypes=[('Python Pickle File', '*.pkl'), ('Water Sorting Level File', '*.wsl')])
+                    try:
+                        self.save(fp)
+                    except:
+                        self.say(2)
     def say(self, msg):
         font = pygame.font.SysFont('SimHei', 50)
-        text = font.render(msg, 1, (127,127,127))
+        text = font.render(core.SAY_MSG[msg], 1, (127,127,127))
         textpos = text.get_rect()
         textpos.center = self.screen.get_rect().center
         self.screen.blit(text, textpos)
@@ -52,6 +67,30 @@ class Level(core.Level):
 class Levels(Level, core.Levels):
     def __init__(self, levs):
         super().__init__(levs=levs)
+
+class Generator(Level, core.Generator):
+    def __init__(self, length, limit):
+        super().__init__(length=length, limit=limit)
+        self.incc = False
+    def listen(self, msg):
+        coind = 0
+        while True:
+            for e in pygame.event.get():
+                i = self.filter(e)
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                    if e.button == 1:
+                        if msg == 4:
+                            self.incc = False
+                            return coind+1
+                        elif i:
+                            self.incc = True
+                            return i
+                    elif e.button == 3:
+                        if self.incc:
+                            coind += 1
+                        else:
+                            self.delete(i)
+                            self.disp()
 
 def playWithPyGame(limit=None):
     if limit:

@@ -1,2 +1,2 @@
-from .core import *
-from .pge import *
+from . import core
+from . import pge

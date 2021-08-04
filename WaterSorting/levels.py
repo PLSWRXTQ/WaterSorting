@@ -1,4 +1,5 @@
 import random, pickle
+from hashlib import new
 
 lst = [
     ([[1,3,2,3],[1,2,3,3],[1,1,2,2],[],[]], 4),
@@ -20,3 +21,6 @@ def getRandom(limit):
                 counting[n-1] += 1
         l.append(t)
     return l
+
+def getMD5(level_tuple):
+    return new('md5', pickle.dumps(level_tuple)).hexdigest()
