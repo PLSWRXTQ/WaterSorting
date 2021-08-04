@@ -42,7 +42,7 @@ class Level(core.Level):
                 keys = pygame.key.get_pressed()
                 if (keys[pygame.K_LCTRL] or keys[pygame.K_RCTRL]) and keys[pygame.K_s]:
                     Tk().withdraw()
-                    fp = filedialog.asksaveasfilename(initialfile=levels.getMD5((self.l, self.limit))+'.pkl', defaultextension='.pkl', filetypes=[('Python Pickle File', '*.pkl'), ('Water Sorting Level File', '*.wsl')])
+                    fp = filedialog.asksaveasfilename(initialfile=levels.getMD5((self.l, self.limit))+'.pkl', defaultextension='.pkl', filetypes=[('Python Pickle File', '*.pkl')])
                     try:
                         self.save(fp)
                     except:
