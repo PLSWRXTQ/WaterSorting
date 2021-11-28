@@ -22,7 +22,6 @@ class Level(core.Level):
         super().start()
     def end(self):
         pygame.quit()
-        _exit(0)
     def listen(self, msg):
         while True:
             for e in pygame.event.get():
@@ -95,7 +94,9 @@ class Generator(Level, core.Generator):
                             self.disp()
 
 def playWithPyGame(limit=None):
-    if limit:
-        Level(l=levels.getRandom(limit), limit=limit).start()
-    else:
-        Levels(levs=levels.lst).start()
+    try:
+        if limit:
+            Level(l=levels.getRandom(limit), limit=limit).start()
+        else:
+            Levels(levs=levels.lst).start()
+    except: pass
