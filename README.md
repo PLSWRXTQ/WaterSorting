@@ -52,7 +52,7 @@ playWithPygame(16) 意思是 16 级难度的随机关卡
 If you run playWithPygame() with no arguments, the game will start with program own levels.<br />
 如果在没有参数的情况下运行playWithPygame()，游戏将以程序自己的关卡开始
 
-Folder Tree:
+Folder Tree:<br />
 文件夹树：
 ```
 WaterSorting
@@ -78,7 +78,7 @@ Initialization program.<br />
 ### class core|pge.Level(Object | core.Level) (l, limit)
 __param__ { l: list }<br />
 The level data<br />
-关卡数据
+关卡数据<br />
 __param__ { limit: int }<br />
 level difficulty/height limit<br />
 关卡难度/限高
