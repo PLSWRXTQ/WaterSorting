@@ -14,7 +14,7 @@ Run the ‘example.py’ directly<br />
 
 A column of color block is a test tube, and the color block is water.<br />
 Click one column of color blocks and then click another column of color blocks, and the water in the test tube will move.<br />
-If the click is wrong, just click the delayed test tube again.<br />
+If the clicked test tube is unexcepted, just click the test tube again.<br />
 Press the 'R' key to play again.<br />
 Save the random level by pressing 'CTRL'+'S'
 
